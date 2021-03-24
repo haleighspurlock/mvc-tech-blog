@@ -57,7 +57,7 @@ router.get('/post/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const postData = await Post.create(req.body);
-        res.status(200).json(CategoryData);
+        res.status(200).json(postData);
     } catch (err) {
         res.status(400).json(err);
     }
@@ -78,9 +78,9 @@ router.put('/:id', async (req, res) => {
         }
 
         res.status(200).json(postData);
-    }   catch(err) {
-        res.status(500).json(err);
-    }
+        }   catch(err) {
+            res.status(500).json(err);
+        }
 });
 
 // delete a post
@@ -98,9 +98,9 @@ router.delete('/:id', (req, res) => {
         }
 
         res.status(200).json(postData);
-    } catch(err) {
-        res.status(500).json(err);
-    }
+        } catch(err) {
+            res.status(500).json(err);
+        }
 });
 
 module.exports = router;
