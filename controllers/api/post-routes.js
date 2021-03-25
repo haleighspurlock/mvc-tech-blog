@@ -4,12 +4,17 @@ const { Post } = require('../../models');
 
 // create new post
 router.post('/', async (req, res) => {
-    // try {
-    //     const postData = await Post.create(req.body);
-    //     res.status(200).json(postData);
-    // } catch (err) {
-    //     res.status(400).json(err);
-    // }
+    try {
+        const dbPostData = await Post.create({
+            post_title: req.body.title,
+            post_date: Date.now(),
+            post_body: req.body.content,
+            user_id: req.session.user_id
+        });
+        res.status(200).json(dbPostData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
 });
 
 // update a post

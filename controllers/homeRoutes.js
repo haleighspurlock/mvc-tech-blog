@@ -2,21 +2,9 @@ const router = require('express').Router();
 const { Post, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-// get all posts
 router.get('/', async (req, res) => {
     try {
-        // const dbPostData = await Post.findAll({
-        //     include: [
-        //         {
-        //             model: Comment,
-        //             attributes: ['comment_body', 'comment_date'],
-        //         },
-        //     ],
-        // });
-
-        // const posts = dbPostData.map((post) =>post.get({ plain: true }));
         res.render('dashboard', {
-            // posts,
             logged_in: req.session.logged_in,
         });
     }   catch (err) {
@@ -24,10 +12,38 @@ router.get('/', async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 router.get('/dashboard', async (req, res) => {
     try {
+        res.render('dashboard', {
+            logged_in: req.session.logged_in,
+        });
+    }   catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+router.get('/posts', async (req, res) => {
+    try {
+        res.render('post', {
+            logged_in: req.session.logged_in,
+        });
+    }   catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+
+
+
+
+
+
+
+
+
         // const dbPostData = await Post.findAll({
         //     include: [
         //         {
@@ -38,15 +54,6 @@ router.get('/dashboard', async (req, res) => {
         // });
 
         // const posts = dbPostData.map((post) =>post.get({ plain: true }));
-        res.render('dashboard', {
-            // posts,
-            logged_in: req.session.logged_in,
-        });
-    }   catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-});
 
 // get one post
 router.get('/post/:id', async (req, res) => {

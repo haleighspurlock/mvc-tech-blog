@@ -7,18 +7,19 @@
         <title>Document</title>
     </head>
     <body>
-        {{logged_in}}
-    {{#if logged_in}}
+        {{#if logged_in}}
             <button id='logout'>logout</button>
         {{else}}
             <a href="/login">login</a>
-    {{/if}}
+        {{/if}}
+        
         <br/>
-    {{{ body }}}
 
-      <!-- Render script for logged in users only -->
-    {{#if logged_in}}
-    <script src="/js/logout.js"></script>
-    {{/if}}
+        {{{ body }}}
+
+        <!-- Render script for logged in users only -->
+        {{#if logged_in}}
+            <script src="/js/logout.js"></script>
+        {{/if}}
     </body>
 </html>
