@@ -1,5 +1,33 @@
+<div class="row">
+  <div class="col-auto">
+    <h2>Hello, {{username}}!</h2>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-6">
+    <h3>Create a New Post:</h3>
+
+    <form class="form new-post-form">
+      <div class="form-group">
+        <label for="post-title">Post Title</label>
+        <input class="form-input" type="text" id="post-title" name="post-title" />
+      </div>
+      <div class="form-group">
+        <label for="post-content">description:</label>
+        <textarea class="form-input" id="post-content" name="post-content"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create a New Post!</button>
+      </div>
+    </form>
+  </div>
+
+
+
 <section class="container">
-  <h3 class="post-name">{{post.name}}</h3>
+  {{#if post.length}}
+  <h3 class="current-posts">Current Posts:</h3>
   <h4>Post Time: {{format_time post.starting_date}}</h4>
   <section class="flex-row justify-center">
     {{#each post.comments as |comment|}}
