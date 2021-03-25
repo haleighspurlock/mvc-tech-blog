@@ -24,10 +24,22 @@ router.get('/dashboard', async (req, res) => {
     }
 });
 
-router.get('/posts', async (req, res) => {
+router.get('/posts', withAuth, async (req, res) => {
     try {
+        const dbPostData = await Post.findAll({
+            // include: [
+            //     {
+            //         model: Comment,
+            //         attributes: ['comment_body', 'comment_date'],
+            //     },
+            // ],
+        });
+
+        const posts = dbPostData.map((post) =>post.get({ plain: true }));
+        console.log(posts)
         res.render('post', {
             logged_in: req.session.logged_in,
+            posts,
         });
     }   catch (err) {
         console.log(err);
@@ -35,25 +47,6 @@ router.get('/posts', async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-        // const dbPostData = await Post.findAll({
-        //     include: [
-        //         {
-        //             model: Comment,
-        //             attributes: ['comment_body', 'comment_date'],
-        //         },
-        //     ],
-        // });
-
-        // const posts = dbPostData.map((post) =>post.get({ plain: true }));
 
 // get one post
 router.get('/post/:id', async (req, res) => {

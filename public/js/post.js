@@ -1,7 +1,5 @@
 const createPost = async (event)=>{
-    event.preventDefault();
-
-    console.log("HELLO")
+    // event.preventDefault();
 
     // Get the users inputted info
     const title = document.querySelector('#post-title').value.trim();
