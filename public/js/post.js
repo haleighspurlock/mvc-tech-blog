@@ -18,4 +18,21 @@ const createPost = async (event)=>{
     }
 }
 
+const deletePost = async (event) => {
+    if(event.target.getAttribute('data-id')) {
+        const postId = event.target.getAttribute('data-id');
+        
+        const response = await fetch(`/api/posts/${postId}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            alert('failed to delete post!');
+        }
+    }
+};
+
 document.querySelector('#create-post').addEventListener('submit', createPost)
+document.querySelector('.post-list').addEventListener('click', deletePost)

@@ -1,0 +1,13 @@
+.post-wrapper {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    margin: 10px auto;
+    padding: 5px;
+}
+
+.post-wrapper .flex-row button {
+    padding: 5px;
+    position: absolute;
+    right: 20px;
+}
