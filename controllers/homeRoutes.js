@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { Post, Comment } = require('../models');
+const { Post, Comment, User } = require('../models');
 const withAuth = require('../utils/auth');
 
-router.get('/', async (req, res) => {
+router.get('/', withAuth, async (req, res) => {
     try {
-        res.render('dashboard', {
+        res.render('posts', {
             logged_in: req.session.logged_in,
         });
     }   catch (err) {
@@ -13,31 +13,37 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/dashboard', async (req, res) => {
-    try {
-        res.render('dashboard', {
-            logged_in: req.session.logged_in,
-        });
-    }   catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-});
 
-router.get('/posts', withAuth, async (req, res) => {
+router.get('/posts', async (req, res) => {
     try {
         const dbPostData = await Post.findAll({
-            // include: [
-            //     {
-            //         model: Comment,
-            //         attributes: ['comment_body', 'comment_date'],
-            //     },
-            // ],
+            include: [
+                {
+                    model: Comment,
+                    attributes: ['comment_body', 'comment_date'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['username']
+                        }
+                    ]
+                },
+                {
+                    model: User,
+                    attributes: ['username'],
+                },
+            ],
         });
 
-        const posts = dbPostData.map((post) =>post.get({ plain: true }));
-        console.log(posts)
-        res.render('post', {
+        let posts = dbPostData.map((post) =>post.get({ plain: true }));
+
+        posts = posts.map((post)=>{
+            return {
+                ...post,
+                is_me: post.user_id === req.session.user_id
+            }
+        })
+        res.render('posts', {
             logged_in: req.session.logged_in,
             posts,
         });
@@ -47,31 +53,43 @@ router.get('/posts', withAuth, async (req, res) => {
     }
 });
 
-
 // get one post
-router.get('/post/:id', async (req, res) => {
-    // // if user is not logged in, redirect user to login page
-    // if (!req.session.loggedIn) {
-    //     res.redirect('/login');
-    // } else{
-    //     // if user is logged in, show the post
-    //     try {
-    //         const dbPostData = await Post.findByPk(req.params.id, {
-    //             include: [
-    //                 {
-    //                     model: Comment,
-    //                     attributes: ['comment_body', 'comment_date'],
-    //                 },
-    //             ],
-    //         });
-    //         const post = dbPostData.get({ plain: true });
-    //         res.render('post', { post, loggedIn: req.session.loggedIn });
-    //     } catch(err) {
-    //         console.log(err);
-    //         res.status(500).json(err);
-    //     }
-    // }
-});
+router.get('/post/:id', withAuth, async (req, res) => {
+        // if user is logged in, show the post
+        try {
+            const dbPostData = await Post.findByPk(req.params.id, {
+                include: [
+                    {
+                        model: Comment,
+                        attributes: ['comment_body', 'comment_date'],
+                    },
+                ],
+            });
+            let post = dbPostData.get({ plain: true });
+            post = {
+                ...post,
+                is_me: req.session.user_id === post.user_id
+            }
+            res.render('post', { post, logged_in: req.session.logged_in });
+        } catch(err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    }
+);
+
+router.get('/postedit/:id', withAuth, async (req, res) => {
+    // if user is logged in, show the post
+    try {
+        const dbPostData = await Post.findByPk(req.params.id);
+        const post = dbPostData.get({ plain: true });
+        res.render('post-edit', { post, logged_in: req.session.logged_in });
+    } catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
+);
 
 //get all comments
 // router.get('/', async (req, res) => {

@@ -10,9 +10,11 @@
 
 ## Description
 ---
-Update Description
+I focused a lot on functionality for this application. It currently looks very ugly and isn't at all visually nice to navigate, but a good bit of it is functional in the appropriate ways. This project was extremely challenging. 
 
-![Tech Blog](*****Include Screenshot here******)
+![Tech Blog](./assets/login-blog.png)
+![Tech Blog](/assets/newpost-blog.png)
+![Tech Blog](/assets/multiple-posts.png)
 
 ## Requirements 
 ---

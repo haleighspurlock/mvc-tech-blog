@@ -14,7 +14,7 @@ const handleSignup = async (event)=>{
         });
 
         if (response.ok) {
-            document.location.replace('/dashboard');
+            document.location.replace('/posts');
           } else {
             alert(response.statusText);
           }
@@ -33,9 +33,9 @@ const handleSignin = async (event)=>{
             body: JSON.stringify({ email, password }),
             headers: { 'Content-Type': 'application/json' },
         });
-
+        
         if (response.ok) {
-            document.location.replace('/dashboard');
+            document.location.replace('/posts');
         } else {
             alert(response.statusText);
         }

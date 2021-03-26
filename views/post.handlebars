@@ -1,24 +1,10 @@
-<form id="create-post">
-    Title: <input id="post-title" type="text" />
-    Content: <input id="post-content" type="text" />
-
-    <button type="submit">Create</button>
-</form>
-<div class='post-list'>
-    {{#each posts as |post| }}
-        <div class='post-wrapper'>
-            <div class='flex-row'>
-                <h1>{{post.post_title}}</h1> 
-                <button id='delete' class='btn btn-sm btn-danger' data-id="{{post.id}}">Delete Post</button>
-            </div>
-            <p>{{post.post_body}}</p>
-            <div class='comment-wrapper'>
-                Comment: <input type='text'/>
-                <button type='submit'>Submit a Comment</button>
-            </div>
-        </div>
-    {{/each}}
+<div class='post-indiv'>
+    <h3>{{post.post_title}}</h3></br>
+{{post.post_body}}</br></br></br>
+{{#if post.is_me}}
+<a href='/postedit/{{post.id}}'>Edit Post</a>
+{{/if}}
+{{#each post.Comments as |comment|}}
+<p id='comment'>{{comment.comment_body}}</p>
+{{/each}}
 </div>
-
-
-<script src="/js/post.js"></script>

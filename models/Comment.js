@@ -16,10 +16,6 @@ Comment.init(
             allowNull: false,
 
         },
-        comment_date: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
         user_id: {
             type: DataTypes.INTEGER,
             references: {
@@ -27,6 +23,10 @@ Comment.init(
                 key: 'id',
             }, 
          },
+        comment_date: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
          post_id: {
              type: DataTypes.INTEGER,
              references: {
